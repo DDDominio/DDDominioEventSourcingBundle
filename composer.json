@@ -1,0 +1,22 @@
+{
+  "name": "dddominio/event-sourcing-bundle",
+  "description": "DDDominio Event Sourcing library Symfony integration",
+  "type": "symfony-bundle",
+  "minimum-stability": "dev",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Daniel Santamaría",
+      "email": "santaka87@gmail.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "DDDominio\\EventSourcingBundle\\": ""
+    }
+  },
+  "require": {
+    "php": "^5.6 || ^7.0",
+    "dddominio/event-sourcing": "^1.0@dev"
+  }
+}
