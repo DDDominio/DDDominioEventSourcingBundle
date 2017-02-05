@@ -1,0 +1,7 @@
+services:
+    dddominio_event_sourcing.event_store.doctrine_dbal_event_store:
+        class: DDDominio\EventSourcing\EventStore\Vendor\DoctrineDbalEventStore
+        arguments:
+            - "@database_connection"
+            - "@dddominio_event_sourcing.serialization.json_serializer"
+            - "@dddominio_event_sourcing.versioning.event_upgrader"

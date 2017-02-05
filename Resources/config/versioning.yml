@@ -1,0 +1,23 @@
+services:
+    dddominio_event_sourcing.versioning.event_upgrader:
+        class: DDDominio\EventSourcing\Versioning\EventUpgrader
+        arguments: ["@dddominio_event_sourcing.versioning.event_adapter"]
+        public: false
+        lazy: true
+
+    dddominio_event_sourcing.versioning.event_adapter:
+        class: DDDominio\EventSourcing\Versioning\EventAdapter
+        arguments: ["@dddominio_event_sourcing.versioning.json_transformer"]
+        public: false
+        lazy: true
+
+    dddominio_event_sourcing.versioning.json_transformer:
+        class: DDDominio\EventSourcing\Versioning\JsonTransformer\JsonTransformer
+        arguments: ["@dddominio_event_sourcing.versioning.token_extractor"]
+        public: false
+        lazy: true
+
+    dddominio_event_sourcing.versioning.token_extractor:
+        class: DDDominio\EventSourcing\Versioning\JsonTransformer\TokenExtractor
+        public: false
+        lazy: true

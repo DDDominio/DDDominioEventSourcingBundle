@@ -1,0 +1,12 @@
+services:
+    dddominio_event_sourcing.common.aggregate_reconstructor:
+        class: DDDominio\EventSourcing\Common\AggregateReconstructor
+        arguments: ["@dddominio_event_sourcing.snapshotting.snapshotter"]
+
+    dddominio_event_sourcing.common.event_sourced_aggregate_repository:
+        class: DDDominio\EventSourcing\Common\EventSourcedAggregateRepository
+        arguments:
+            - "@dddominio_event_sourcing.event_store.doctrine_dbal_event_store"
+            - "@dddominio_event_sourcing.snapshotting.doctrine_snapshot_store"
+            - "@dddominio_event_sourcing.common.aggregate_reconstructor"
+        abstract: true

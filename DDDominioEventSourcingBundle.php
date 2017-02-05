@@ -2,6 +2,8 @@
 
 namespace DDDominio\EventSourcingBundle;
 
-class DDDominioEventSourcingBundle
+use Symfony\Component\HttpKernel\Bundle\Bundle;
+
+class DDDominioEventSourcingBundle extends Bundle
 {
 }

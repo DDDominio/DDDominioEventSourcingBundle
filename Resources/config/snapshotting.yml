@@ -1,0 +1,7 @@
+services:
+    dddominio_event_sourcing.snapshotting.doctrine_snapshot_store:
+        class: DDDominio\EventSourcing\Snapshotting\Vendor\DoctrineSnapshotStore
+        arguments: ["@database_connection", "@dddominio_event_sourcing.serialization.json_serializer"]
+
+    dddominio_event_sourcing.snapshotting.snapshotter:
+        class: DDDominio\EventSourcing\Snapshotting\Snapshotter

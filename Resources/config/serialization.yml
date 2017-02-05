@@ -1,0 +1,6 @@
+services:
+    dddominio_event_sourcing.serialization.json_serializer:
+        class: DDDominio\EventSourcing\Serialization\JsonSerializer
+        arguments: ["@jms_serializer"]
+        public: false
+        lazy: true
