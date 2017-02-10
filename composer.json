@@ -3,6 +3,7 @@
   "description": "DDDominio Event Sourcing library Symfony integration",
   "type": "symfony-bundle",
   "minimum-stability": "dev",
+  "prefer-stable": true,
   "license": "MIT",
   "authors": [
     {
