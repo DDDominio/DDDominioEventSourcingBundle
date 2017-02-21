@@ -56,12 +56,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/DDDominio/event-sourcing.git",
-                "reference": "26350dbc1fd516938bc08a91b5105819ea8461ab"
+                "reference": "e55adda3f7fdc0924b136541dd919122702b7406"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/DDDominio/event-sourcing/zipball/26350dbc1fd516938bc08a91b5105819ea8461ab",
-                "reference": "26350dbc1fd516938bc08a91b5105819ea8461ab",
+                "url": "https://api.github.com/repos/DDDominio/event-sourcing/zipball/e55adda3f7fdc0924b136541dd919122702b7406",
+                "reference": "e55adda3f7fdc0924b136541dd919122702b7406",
                 "shasum": ""
             },
             "require": {
@@ -97,7 +97,7 @@
                 }
             ],
             "description": "Event Sourcing for PHP",
-            "time": "2017-02-16 20:03:44"
+            "time": "2017-02-19 09:07:41"
         },
         {
             "name": "doctrine/annotations",
