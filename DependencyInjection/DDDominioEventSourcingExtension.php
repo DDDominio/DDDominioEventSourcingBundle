@@ -4,6 +4,7 @@ namespace DDDominio\EventSourcingBundle\DependencyInjection;
 
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\DependencyInjection\Reference;
@@ -25,8 +26,48 @@ class DDDominioEventSourcingExtension extends Extension
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
-        $def = $container->getDefinition('dddominio_event_sourcing.event_store.doctrine_dbal_event_store');
-        $def->replaceArgument(0, new Reference(sprintf('doctrine.dbal.%s_connection', $config['event_store']['dbal']['connection'])));
+        $type = $config['event_store']['type'];
+        $eventStoreDefinitionId = sprintf('dddominio_event_sourcing.event_store.%s_event_store', $type);
+        $eventStoreDefinition = $container->getDefinition($eventStoreDefinitionId);
+
+        if ($type === 'doctrine_dbal') {
+            $eventStoreDefinition->replaceArgument(0, new Reference(sprintf('doctrine.dbal.%s_connection', $config['event_store']['connection'])));
+        } else if ($type === 'mysql_json') {
+            $pdoDefinition = new Definition();
+            $pdoDefinition->setClass(\PDO::class);
+            $pdoDefinition->setArguments([
+                sprintf('mysql:host=%s;dbname=%s', $config['event_store']['host'], $config['event_store']['dbname']),
+                $config['event_store']['user'],
+                $config['event_store']['password']
+            ]);
+            $container->setDefinition('dddominio_event_sourcing.event_store.mysql_json_pdo', $pdoDefinition);
+            $eventStoreDefinition->replaceArgument(0, new Reference('dddominio_event_sourcing.event_store.mysql_json_pdo'));
+        }
+
+        $type = $config['snapshot_store']['type'];
+        $snapshotStoreDefinitionId = sprintf('dddominio_event_sourcing.snapshotting.%s_snapshot_store', $type);
+        $snapshotStoreDefinition = $container->getDefinition($snapshotStoreDefinitionId);
+
+        if ($type === 'doctrine_dbal') {
+            $snapshotStoreDefinition->replaceArgument(0, new Reference(sprintf('doctrine.dbal.%s_connection', $config['snapshot_store']['connection'])));
+        } else if ($type === 'mysql_json') {
+            $pdoDefinition = new Definition();
+            $pdoDefinition->setClass(\PDO::class);
+            $pdoDefinition->setArguments([
+                sprintf('mysql:host=%s;dbname=%s', $config['snapshot_store']['host'], $config['snapshot_store']['dbname']),
+                $config['snapshot_store']['user'],
+                $config['snapshot_store']['password']
+            ]);
+            $container->setDefinition('dddominio_event_sourcing.snapshotting.mysql_json_pdo', $pdoDefinition);
+            $snapshotStoreDefinition->replaceArgument(0, new Reference('dddominio_event_sourcing.snapshotting.mysql_json_pdo'));
+        }
+
+        $container->setAlias('dddominio.event_store', $eventStoreDefinitionId);
+        $container->setAlias('dddominio.snapshot_store', $snapshotStoreDefinitionId);
+
+        $repositoryDefinition = $container->getDefinition('dddominio_event_sourcing.common.event_sourced_aggregate_repository');
+        $repositoryDefinition->replaceArgument(0, new Reference($eventStoreDefinitionId));
+        $repositoryDefinition->replaceArgument(1, new Reference($snapshotStoreDefinitionId));
     }
 
     /**
