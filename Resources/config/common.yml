@@ -1,4 +1,28 @@
 services:
+    dddominio_event_sourcing.common.method_id_aggregate_id_extractor:
+        class: DDDominio\EventSourcing\Common\MethodAggregateIdExtractor
+        arguments: ["id"]
+
+    dddominio_event_sourcing.common.method_get_id_aggregate_id_extractor:
+        class: DDDominio\EventSourcing\Common\MethodAggregateIdExtractor
+        arguments: ["getId"]
+
+    dddominio_event_sourcing.common.annotation_aggregate_id_extractor:
+        class: DDDominio\EventSourcing\Common\AnnotationAggregateIdExtractor
+
+    dddominio_event_sourcing.common.chain_aggregate_id_extractor:
+        class: DDDominio\EventSourcing\Common\ChainAggregateIdExtractor
+        calls:
+            - method: add
+              arguments:
+                  - "@dddominio_event_sourcing.common.method_id_aggregate_id_extractor"
+            - method: add
+              arguments:
+                  - "@dddominio_event_sourcing.common.method_get_id_aggregate_id_extractor"
+            - method: add
+              arguments:
+                  - "@dddominio_event_sourcing.common.annotation_aggregate_id_extractor"
+
     dddominio_event_sourcing.common.aggregate_reconstructor:
         class: DDDominio\EventSourcing\Common\AggregateReconstructor
         arguments: ["@dddominio_event_sourcing.snapshotting.snapshotter"]
@@ -9,4 +33,5 @@ services:
             - "@dddominio_event_sourcing.event_store.doctrine_dbal_event_store"
             - "@dddominio_event_sourcing.snapshotting.doctrine_snapshot_store"
             - "@dddominio_event_sourcing.common.aggregate_reconstructor"
+            - "@dddominio_event_sourcing.common.chain_aggregate_id_extractor"
         abstract: true
