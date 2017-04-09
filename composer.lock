@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "639cb49380d47cdc5fc4150a4a75bf5c",
+    "content-hash": "4e08d77af1fcb523f54963bad39e87da",
     "packages": [
         {
             "name": "dddominio/common",
@@ -52,16 +52,16 @@
         },
         {
             "name": "dddominio/event-sourcing",
-            "version": "dev-master",
+            "version": "0.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/DDDominio/event-sourcing.git",
-                "reference": "69c428c7147ed7a55093779fbc6ae1aceb942fb5"
+                "reference": "058db934d93189a6c5ce483d0ab0e65f930c064e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/DDDominio/event-sourcing/zipball/69c428c7147ed7a55093779fbc6ae1aceb942fb5",
-                "reference": "69c428c7147ed7a55093779fbc6ae1aceb942fb5",
+                "url": "https://api.github.com/repos/DDDominio/event-sourcing/zipball/058db934d93189a6c5ce483d0ab0e65f930c064e",
+                "reference": "058db934d93189a6c5ce483d0ab0e65f930c064e",
                 "shasum": ""
             },
             "require": {
@@ -97,7 +97,7 @@
                 }
             ],
             "description": "Event Sourcing for PHP",
-            "time": "2017-03-01 19:27:37"
+            "time": "2017-03-15T19:42:44+00:00"
         },
         {
             "name": "doctrine/annotations",
@@ -2708,9 +2708,7 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": {
-        "dddominio/event-sourcing": 20
-    },
+    "stability-flags": [],
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
