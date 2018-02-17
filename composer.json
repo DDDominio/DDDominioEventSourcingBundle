@@ -20,7 +20,7 @@
     "php": "^5.6 || ^7.0",
     "symfony/config": "^3.0",
     "symfony/dependency-injection": "^3.0",
-    "dddominio/event-sourcing": "^0.1"
+    "dddominio/event-sourcing": "~0.1.0"
   },
   "require-dev": {
     "jms/serializer-bundle": "^1.1",
