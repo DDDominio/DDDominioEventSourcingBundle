@@ -2,12 +2,29 @@
 
 namespace DDDominio\EventSourcingBundle\Command;
 
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use DDDominio\EventSourcing\EventStore\EventStoreInterface;
+use DDDominio\EventSourcing\EventStore\InitializableInterface;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class InitializeEventStoreCommand extends ContainerAwareCommand
+class InitializeEventStoreCommand extends Command
 {
+    /**
+     * @var EventStoreInterface
+     */
+    private $eventStore;
+
+    /**
+     * InitializeEventStoreCommand constructor.
+     * @param InitializableInterface $eventStore
+     */
+    public function __construct(InitializableInterface $eventStore)
+    {
+        parent::__construct();
+        $this->eventStore = $eventStore;
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -16,7 +33,6 @@ class InitializeEventStoreCommand extends ContainerAwareCommand
         $this
             ->setName('dddominio:event-store:initialize')
             ->setDescription('Initialize the event store');
-
     }
 
     /**
@@ -24,15 +40,13 @@ class InitializeEventStoreCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $eventStore = $this->getContainer()->get('dddominio.event_store');
-
-        if ($eventStore->initialized()) {
+        if ($this->eventStore->initialized()) {
             $output->writeln('<error>Event Store already initialized</error>');
             return 1;
         }
 
         $output->writeln('<info>Event store initialized</info>');
-        $eventStore->initialize();
+        $this->eventStore->initialize();
 
         return 0;
     }

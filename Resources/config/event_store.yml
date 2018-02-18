@@ -12,3 +12,10 @@ services:
             - ""
             - "@dddominio_event_sourcing.serialization.json_serializer"
             - "@dddominio_event_sourcing.versioning.event_upgrader"
+
+    dddominio_event_sourcing.event_store.console.initialize:
+        class: DDDominio\EventSourcingBundle\Command\InitializeEventStoreCommand
+        arguments:
+            -  "@dddominio.event_store"
+        tags:
+            - { name: console.command }

@@ -2,12 +2,28 @@
 
 namespace DDDominio\EventSourcingBundle\Command;
 
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use DDDominio\EventSourcing\EventStore\InitializableInterface;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class InitializeSnapshotStoreCommand extends ContainerAwareCommand
+class InitializeSnapshotStoreCommand extends Command
 {
+    /**
+     * @var InitializableInterface
+     */
+    private $snapshotStore;
+
+    /**
+     * InitializeSnapshotStoreCommand constructor.
+     * @param InitializableInterface $snapshotStore
+     */
+    public function __construct(InitializableInterface $snapshotStore)
+    {
+        parent::__construct();
+        $this->snapshotStore = $snapshotStore;
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -16,7 +32,6 @@ class InitializeSnapshotStoreCommand extends ContainerAwareCommand
         $this
             ->setName('dddominio:snapshot-store:initialize')
             ->setDescription('Initialize the Snapshot Store');
-
     }
 
     /**
@@ -24,15 +39,13 @@ class InitializeSnapshotStoreCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $snapshotStore = $this->getContainer()->get('dddominio.snapshot_store');
-
-        if ($snapshotStore->initialized()) {
+        if ($this->snapshotStore->initialized()) {
             $output->writeln('<error>Snapshot Store already initialized</error>');
             return 1;
         }
 
         $output->writeln('<info>Snapshot store initialized</info>');
-        $snapshotStore->initialize();
+        $this->snapshotStore->initialize();
 
         return 0;
     }
