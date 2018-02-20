@@ -2,8 +2,7 @@
   "name": "dddominio/event-sourcing-bundle",
   "description": "DDDominio Event Sourcing library Symfony integration",
   "type": "symfony-bundle",
-  "minimum-stability": "dev",
-  "prefer-stable": true,
+  "minimum-stability": "stable",
   "license": "MIT",
   "authors": [
     {
