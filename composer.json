@@ -24,7 +24,7 @@
   "require-dev": {
     "jms/serializer-bundle": "^1.1",
     "doctrine/doctrine-bundle": "^1.6",
-    "symfony/phpunit-bridge": "^3.0|^4.0"
+    "symfony/phpunit-bridge": "^4.0"
   },
   "extra": {
     "branch-alias": {

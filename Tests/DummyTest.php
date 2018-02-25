@@ -2,7 +2,7 @@
 
 namespace DDDominio\EventSourcingBundle\Tests;
 
-use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
+use PHPUnit\Framework\TestCase;
 
 class DummyTest extends TestCase
 {
