@@ -20,14 +20,16 @@ class DDDominioEventSourcingExtensionTest extends TestCase
             'type' => 'doctrine_dbal',
             'connection' => 'pdo_mysql',
             'user' => 'user',
-            'password' => 'password'
+            'password' => 'password',
+            'serializer' => 'symfony'
         ];
 
         $configs[]['snapshot_store'] = [
             'type' => 'doctrine_dbal',
             'connection' => 'pdo_mysql',
             'user' => 'user',
-            'password' => 'password'
+            'password' => 'password',
+            'serializer' => 'symfony'
         ];
 
         $extension->load($configs, $container);

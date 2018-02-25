@@ -1,6 +1,12 @@
 services:
-    dddominio_event_sourcing.serialization.json_serializer:
-        class: DDDominio\EventSourcing\Serialization\JsonSerializer
+    dddominio_event_sourcing.serialization.symfony_serializer:
+        class: DDDominio\EventSourcing\Serialization\SymfonySerializer
+        arguments: ["@serializer"]
+        public: false
+        lazy: true
+
+    dddominio_event_sourcing.serialization.jms_serializer:
+        class: DDDominio\EventSourcing\Serialization\JmsSerializer
         arguments: ["@jms_serializer"]
         public: false
         lazy: true

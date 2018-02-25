@@ -43,6 +43,11 @@ class DDDominioEventSourcingExtension extends Extension
         $type = $config['event_store']['type'];
         $eventStoreDefinitionId = sprintf('dddominio_event_sourcing.event_store.%s_event_store', $type);
         $eventStoreDefinition = $container->getDefinition($eventStoreDefinitionId);
+        
+        $eventStoreSerializerType = $config['event_store']['serializer'];
+        $eventStoreSerializerDefinitionId = sprintf('dddominio_event_sourcing.serialization.%s_serializer', $eventStoreSerializerType);
+        $eventStoreSerializerDefinition = $container->getDefinition($eventStoreSerializerDefinitionId);
+        $eventStoreDefinition->replaceArgument(1, $eventStoreSerializerDefinition);
 
         if ($type === 'doctrine_dbal') {
             $eventStoreDefinition->replaceArgument(0, new Reference(sprintf('doctrine.dbal.%s_connection', $config['event_store']['connection'])));
@@ -70,6 +75,11 @@ class DDDominioEventSourcingExtension extends Extension
         $type = $config['snapshot_store']['type'];
         $snapshotStoreDefinitionId = sprintf('dddominio_event_sourcing.snapshotting.%s_snapshot_store', $type);
         $snapshotStoreDefinition = $container->getDefinition($snapshotStoreDefinitionId);
+        
+        $snapshotStoreSerializerType = $config['event_store']['serializer'];
+        $snapshotStoreSerializerDefinitionId = sprintf('dddominio_event_sourcing.serialization.%s_serializer', $snapshotStoreSerializerType);
+        $snapshotStoreSerializerDefinition = $container->getDefinition($snapshotStoreSerializerDefinitionId);
+        $snapshotStoreDefinition->replaceArgument(1, $snapshotStoreSerializerDefinition);
 
         if ($type === 'doctrine_dbal') {
             $snapshotStoreDefinition->replaceArgument(0, new Reference(sprintf('doctrine.dbal.%s_connection', $config['snapshot_store']['connection'])));

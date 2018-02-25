@@ -3,13 +3,13 @@ services:
         class: DDDominio\EventSourcing\Snapshotting\Vendor\DoctrineDbalSnapshotStore
         arguments:
             - ""
-            - "@dddominio_event_sourcing.serialization.json_serializer"
+            - ""
 
     dddominio_event_sourcing.snapshotting.mysql_json_snapshot_store:
         class: DDDominio\EventSourcing\Snapshotting\Vendor\MySqlJsonSnapshotStore
         arguments:
             - ""
-            - "@dddominio_event_sourcing.serialization.json_serializer"
+            - ""
 
     dddominio_event_sourcing.snapshotting.snapshotter:
         class: DDDominio\EventSourcing\Snapshotting\Snapshotter

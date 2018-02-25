@@ -3,14 +3,14 @@ services:
         class: DDDominio\EventSourcing\EventStore\Vendor\DoctrineDbalEventStore
         arguments:
             - ""
-            - "@dddominio_event_sourcing.serialization.json_serializer"
+            - ""
             - "@dddominio_event_sourcing.versioning.event_upgrader"
 
     dddominio_event_sourcing.event_store.mysql_json_event_store:
         class: DDDominio\EventSourcing\EventStore\Vendor\MySqlJsonEventStore
         arguments:
             - ""
-            - "@dddominio_event_sourcing.serialization.json_serializer"
+            - ""
             - "@dddominio_event_sourcing.versioning.event_upgrader"
 
     dddominio_event_sourcing.event_store.console.initialize:
