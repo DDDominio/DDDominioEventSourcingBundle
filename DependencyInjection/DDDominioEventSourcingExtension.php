@@ -26,6 +26,20 @@ class DDDominioEventSourcingExtension extends Extension
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
+        $this->loadEventStore($config, $container);
+        $this->loadSnapshotStore($config, $container);
+
+        $repositoryDefinition = $container->getDefinition('dddominio_event_sourcing.common.event_sourced_aggregate_repository');
+        $repositoryDefinition->replaceArgument(0, new Reference('dddominio.event_store'));
+        $repositoryDefinition->replaceArgument(1, new Reference('dddominio.snapshot_store'));
+    }
+
+    /**
+     * @param array $config
+     * @param ContainerBuilder $container
+     */
+    private function loadEventStore(array $config, ContainerBuilder $container)
+    {
         $type = $config['event_store']['type'];
         $eventStoreDefinitionId = sprintf('dddominio_event_sourcing.event_store.%s_event_store', $type);
         $eventStoreDefinition = $container->getDefinition($eventStoreDefinitionId);
@@ -44,6 +58,15 @@ class DDDominioEventSourcingExtension extends Extension
             $eventStoreDefinition->replaceArgument(0, new Reference('dddominio_event_sourcing.event_store.mysql_json_pdo'));
         }
 
+        $container->setAlias('dddominio.event_store', $eventStoreDefinitionId);
+    }
+
+    /**
+     * @param array $config
+     * @param ContainerBuilder $container
+     */
+    private function loadSnapshotStore(array $config, ContainerBuilder $container)
+    {
         $type = $config['snapshot_store']['type'];
         $snapshotStoreDefinitionId = sprintf('dddominio_event_sourcing.snapshotting.%s_snapshot_store', $type);
         $snapshotStoreDefinition = $container->getDefinition($snapshotStoreDefinitionId);
@@ -62,12 +85,7 @@ class DDDominioEventSourcingExtension extends Extension
             $snapshotStoreDefinition->replaceArgument(0, new Reference('dddominio_event_sourcing.snapshotting.mysql_json_pdo'));
         }
 
-        $container->setAlias('dddominio.event_store', $eventStoreDefinitionId);
         $container->setAlias('dddominio.snapshot_store', $snapshotStoreDefinitionId);
-
-        $repositoryDefinition = $container->getDefinition('dddominio_event_sourcing.common.event_sourced_aggregate_repository');
-        $repositoryDefinition->replaceArgument(0, new Reference($eventStoreDefinitionId));
-        $repositoryDefinition->replaceArgument(1, new Reference($snapshotStoreDefinitionId));
     }
 
     /**
