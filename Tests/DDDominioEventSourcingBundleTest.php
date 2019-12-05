@@ -14,7 +14,6 @@ class DDDominioEventSourcingBundleTest extends TestCase
      */
     public function compilerPassesPresent()
     {
-
         $container = $this->createMock(ContainerBuilder::class);
         $container->expects($spy = $this->any())->method('addCompilerPass');
         $bundle = new DDDominioEventSourcingBundle();
@@ -22,6 +21,9 @@ class DDDominioEventSourcingBundleTest extends TestCase
         $bundle->build($container);
 
         $invocations = $spy->getInvocations();
-        $this->assertInstanceOf(EventUpgraderPass::class, $invocations[0]->parameters[0]);
+        $firstInvocationParameters = method_exists($invocations[0], 'getParameters') ?
+            $invocations[0]->getParameters() :
+            $invocations[0]->parameters;
+        $this->assertInstanceOf(EventUpgraderPass::class, $firstInvocationParameters[0]);
     }
 }

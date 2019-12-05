@@ -14,7 +14,7 @@ class EventUpgraderPassTest extends TestCase
      */
     private $container;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $container = new ContainerBuilder();
         $eventUpgraderDefinition = new Definition(SpyEventUpgrader::class);
